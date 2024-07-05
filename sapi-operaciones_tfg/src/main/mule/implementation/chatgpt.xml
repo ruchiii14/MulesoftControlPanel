@@ -9,7 +9,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		<http:listener doc:name="Listener" doc:id="045b08fd-be84-439c-8eef-46bc4e451e3b" config-ref="prueba-httpListenerConfig" path="/chatgptPost"/>
 		<logger level="INFO" doc:name="Logger" doc:id="c1579dcc-55e4-4bba-891e-538a424d4074" />
 		<set-payload value='#[{&#10;  "model": "gpt-3.5-turbo-instruct",&#10;  "prompt": payload.inputMessage as String,&#10;  "max_tokens": 7,&#10;  "temperature": 0&#10;}]' doc:name="Set Payload" doc:id="0d0fd747-6a0a-44be-8005-62e469ece182" />
-		<set-variable value='#["Bearer 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"]' doc:name="token" doc:id="4e60d34c-8d02-45ff-a28a-acf7b8d540a4" variableName="token" />
+		<set-variable value='#["Bearer insertartutokenaqui"]' doc:name="token" doc:id="4e60d34c-8d02-45ff-a28a-acf7b8d540a4" variableName="token" />
 		<http:request method="POST" doc:name="Request" doc:id="abc57b90-2e63-4308-9831-84eabcfdfc63" url="https://api.openai.com/v1/completions">
 			<http:headers ><![CDATA[#[output application/java
 ---
