@@ -1,6 +1,7 @@
 # proyecto MuleSoft
 
 Para visualizar el panel del restaurante, haga clic [aquí](sapi-operaciones_tfg/src/main/resources/webapp/controlpanel.html).
+Para ver su correcto funcionamiento, importar a AnyPoint Studio
 
 ## Descripción
 El objetivo del proyecto es proporcionar un panel de control integral para la gestión de un restaurante. A través de este panel, los usuarios pueden gestionar de manera centralizada el stock, las redes sociales y otros aspectos operativos del restaurante.
