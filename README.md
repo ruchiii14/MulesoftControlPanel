@@ -1,6 +1,6 @@
 # proyecto MuleSoft
 
-Para visualizar el panel del restaurante, haga clic [aquí](sapi-operaciones_tfg/src/main/resources/webapp/controlpanel.html).
+Para visualizar el panel del restaurante, haga clic [aquí]( https://ruchiii14.github.io/MulesoftControlPanel/).
 Para ver su correcto funcionamiento, importar a AnyPoint Studio
 
 ## Descripción
