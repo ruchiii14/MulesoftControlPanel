@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="loadScript" doc:id="4a023b0c-7be3-41b4-9651-787dabe0cdf6" >
+		<http:listener doc:name="Listener" doc:id="09167ba8-ea4b-4791-a50b-522ca4602ba6" config-ref="prueba-httpListenerConfig" path="/loadScript"/>
+		<http:load-static-resource doc:name="Load static resource" doc:id="93dbb8a0-4891-4d23-8069-7735fa1fe049" resourceBasePath="C:\Users\Rahuja\git\proyectoMuleTFG\sapi-operaciones_tfg\src\main\resources\webapp" defaultFile="script.js"/>
+	</flow>
+	<flow name="loadStyles" doc:id="57c983ae-c85b-4406-961c-22c2f73016de" >
+		<http:listener doc:name="Listener" doc:id="bd46f818-a869-4082-8903-62b39ff0a49e" config-ref="prueba-httpListenerConfig" path="/loadStyles"/>
+		<http:load-static-resource doc:name="Load static resource" doc:id="83a3a033-4f34-49fd-a671-2d466c55dae7" resourceBasePath="C:\Users\Rahuja\git\proyectoMuleTFG\sapi-operaciones_tfg\src\main\resources\webapp" defaultFile="styles.css"/>
+	</flow>
+	<flow name="index" doc:id="f00b2535-b8de-42e6-b416-e13bf075badf" >
+		<http:listener doc:name="Listener" doc:id="cd43ec2c-9877-4ca2-8aad-6fec20e44d7a" config-ref="prueba-httpListenerConfig" path="/index"/>
+		<http:load-static-resource doc:name="Load static resource" doc:id="ea6d1bb3-7d7e-41b2-8ef5-b28c12774d47" resourceBasePath="C:\Users\Rahuja\git\proyectoMuleTFG\sapi-operaciones_tfg\src\main\resources\webapp" defaultFile="controlpanel.html" outputMimeType="text/html"/>
+	</flow>
+</mule>

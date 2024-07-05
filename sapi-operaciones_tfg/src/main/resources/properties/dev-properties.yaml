@@ -1,0 +1,19 @@
+http:
+  host: "localhost"
+  port: "8081"
+  path: "/api/*"
+  timeout: "40000"
+  
+request:
+  host: "api.openai.com"
+  port: ""
+  path: "/v1/completions"
+  timeout: "40000"
+  url: "https://api.openai.com/v1/completions"
+  
+database:
+  host: "localhost"
+  port: "3306"
+  user: "root"
+  password: "root"
+  database: "bar"

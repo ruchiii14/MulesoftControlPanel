@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:oauth="http://www.mulesoft.org/schema/mule/oauth"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/oauth http://www.mulesoft.org/schema/mule/oauth/current/mule-oauth.xsd">
+	<configuration doc:name="Configuration" doc:id="96d9b9b5-071e-4153-bfbd-6cd9e81de569" defaultErrorHandler-ref="errorHandler" />
+	<http:listener-config name="prueba-httpListenerConfig">
+        <http:listener-connection host="${http.host}" port="${http.port}" readTimeout="300000" connectionIdleTimeout="${http.timeout}"/>
+    </http:listener-config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="6d1d2646-9475-4391-9e4e-a528cbf569c1" >
+		<db:my-sql-connection host="${database.host}" port="${database.port}" user="${database.user}" password="${database.password}" database="${database.database}" />
+	</db:config>
+	<configuration-properties doc:name="Configuration properties" doc:id="a10ce9ec-3cae-452a-abea-644513425ae3" file="properties/${env}-properties.yaml" />
+	<global-property doc:name="Global Property" doc:id="4e5995a3-5387-4729-8c60-f002e54aa8ff" name="env" value="dev" />
+	<http:request-config name="Twitter_HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="fd55e623-3f1e-462a-9acf-f2804c022a9c" >
+		<http:request-connection protocol="HTTPS" host="api.twitter.com" port="443" />
+	</http:request-config>
+
+</mule>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="chatgptPost" doc:id="8778b3a4-6b46-4eaa-9f15-41815a8b6738" >
+		<http:listener doc:name="Listener" doc:id="045b08fd-be84-439c-8eef-46bc4e451e3b" config-ref="prueba-httpListenerConfig" path="/chatgptPost"/>
+		<logger level="INFO" doc:name="Logger" doc:id="c1579dcc-55e4-4bba-891e-538a424d4074" />
+		<set-payload value='#[{&#10;  "model": "gpt-3.5-turbo-instruct",&#10;  "prompt": payload.inputMessage as String,&#10;  "max_tokens": 7,&#10;  "temperature": 0&#10;}]' doc:name="Set Payload" doc:id="0d0fd747-6a0a-44be-8005-62e469ece182" />
+		<set-variable value='#["Bearer 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"]' doc:name="token" doc:id="4e60d34c-8d02-45ff-a28a-acf7b8d540a4" variableName="token" />
+		<http:request method="POST" doc:name="Request" doc:id="abc57b90-2e63-4308-9831-84eabcfdfc63" url="https://api.openai.com/v1/completions">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	Authorization : vars.token
+}]]]></http:headers>
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="45c8dd2d-0516-4a94-9010-b0e4af9c0aba" message="#[payload]"/>
+		<ee:transform doc:name="Transform Message" doc:id="e2208850-0d93-4e24-9bb4-6750b1191bdb">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  status: "success",
+  message: payload.choices.text[0]
+} ]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css" media="all">
+	<script type="text/javascript" src="http://localhost:8081/loadScript"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	
+    <title>RESTAURANT CONTROL PANEL</title>
+</head>
+<body>
+    <header>
+        <h1>RESTAURANT CONTROL PANEL</h1>
+    </header>
+    <div class="container">
+        <div class="microservice" id="purchaseMicroservice">
+            <!-- Purchase Form -->
+            <h2>Purchase Form</h2>
+            <form id="purchaseForm">
+			    <label for="productName">Producto:</label>
+			    <select id="producto" name="product">
+        
+    			</select><br>
+			
+			    <label for="units">Unidades:</label>
+			    <input type="number" id="units" name="units" required><br>
+			
+			    <label for="price">Precio/Unidad:</label>
+			    <input type="number" id="price" name="price" required><br>
+			
+			    <button type="button" onclick="insertPurchase()">Insert</button>
+
+       
+        	</form>
+        </div>
+        <div class="microservice" id="tweetMicroservice">
+            <!-- Tweet Display -->
+            <h2>Latest Tweets</h2>
+            <div id="tweetContainer"></div>
+        </div>
+        <div class="microservice" id="salesMicroservice">
+            <!-- Sales Form -->
+            <h2>Sales Form</h2>
+            <form id="salesForm">
+                <label for="salesProductName">Product Name:</label>
+                <input type="text" id="salesProductName" name="salesProductName" required>
+              
+                <label for="salesUnits">Units:</label>
+                <input type="number" id="salesUnits" name="salesUnits" required>
+                <button type="button" onclick="insertSale()">Insert</button>
+        <div id="salesResult"></div>
+    </form>
+        </div>
+        <div class="microservice" id="lowStockMicroservice">
+            <!-- Low Stock Alerts -->
+            <h2>Low Stock Alerts</h2>
+            <p id="lowStockAlert">0 in stock</p>
+        </div>
+        <div class="microservice" id="recommendationMicroservice">
+            <!-- Recommendation -->
+            <h2>Recommendations</h2>
+            <div class="recommendation" id="purchaseRecommendation">
+                <h3>Top Selling Products</h3>
+                <ul id="topSellingList"></ul>
+            </div>
+            <div class="recommendation" id="salesRecommendation">
+                <h3>Least Selling Products</h3>
+                <ul id="leastSellingList"></ul>
+                <textarea id="tweetContent" placeholder="Enter tweet content"></textarea>
+                <button type="button" onclick="publishTweet()">Publish</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        cargarOpcionesProductos();
+    </script>
+</body>
+</html>

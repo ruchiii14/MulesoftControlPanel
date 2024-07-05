@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension-documentation>
+    <configs>
+        <config name="config">
+            <description><![CDATA[Default configuration]]></description>
+            <parameters/>
+        </config>
+    </configs>
+    <connections/>
+    <extension name="OAuth">
+        <description><![CDATA[An extension to hook oauth2 to http extension connectors.]]></description>
+        <parameters/>
+    </extension>
+    <operations>
+        <operation name="invalidateOauthContext">
+            <description><![CDATA[Clears the oauth context for a token manager and a resource owner id.]]></description>
+            <parameters>
+                <parameter name="tokenManager">
+                    <description><![CDATA[The token manager which holds the credentials to invalidate.]]></description>
+                </parameter>
+                <parameter name="resourceOwnerId">
+                    <description><![CDATA[The resource owner id to invalidate. This attribute is only allowed for authorization code grant type.]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="retrieveAccessToken">
+            <description><![CDATA[Returns the access token of the token manager for the parametrized resource owner ID]]></description>
+            <parameters>
+                <parameter name="tokenManager">
+                    <description><![CDATA[The token manager which holds the access token.]]></description>
+                </parameter>
+                <parameter name="resourceOwnerId">
+                    <description><![CDATA[The resource owner id to invalidate. This attribute is only allowed for authorization code grant type.]]></description>
+                </parameter>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="retrieveCustomTokenResponseParam">
+            <description><![CDATA[Returns the value of the parameter that was extracted during the dance from the token manager for the parametrized resource owner ID]]></description>
+            <parameters>
+                <parameter name="tokenManager">
+                    <description><![CDATA[The token manager which holds the access token.]]></description>
+                </parameter>
+                <parameter name="resourceOwnerId">
+                    <description><![CDATA[The resource owner id to invalidate. This attribute is only allowed for authorization code grant type.]]></description>
+                </parameter>
+                <parameter name="key">
+                    <description><![CDATA[to look for in the elements that has been extracted after the previous OAuth dance.]]></description>
+                </parameter>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="retrieveExpiresIn">
+            <description><![CDATA[Returns the expiration of the oauth context for the parametrized resource owner ID]]></description>
+            <parameters>
+                <parameter name="tokenManager">
+                    <description><![CDATA[The token manager which holds the access token.]]></description>
+                </parameter>
+                <parameter name="resourceOwnerId">
+                    <description><![CDATA[The resource owner id to invalidate. This attribute is only allowed for authorization code grant type.]]></description>
+                </parameter>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="retrieveRefreshToken">
+            <description><![CDATA[Returns the refresh token of the oauth context for the parametrized resource owner ID]]></description>
+            <parameters>
+                <parameter name="tokenManager">
+                    <description><![CDATA[The token manager which holds the refresh token.]]></description>
+                </parameter>
+                <parameter name="resourceOwnerId">
+                    <description><![CDATA[The resource owner id to invalidate. This attribute is only allowed for authorization code grant type.]]></description>
+                </parameter>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="retrieveState">
+            <description><![CDATA[Returns the state of the oauth context for the parametrized resource owner ID]]></description>
+            <parameters>
+                <parameter name="tokenManager">
+                    <description><![CDATA[The token manager which holds the access token.]]></description>
+                </parameter>
+                <parameter name="resourceOwnerId">
+                    <description><![CDATA[The resource owner id to invalidate. This attribute is only allowed for authorization code grant type.]]></description>
+                </parameter>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+    </operations>
+    <sources/>
+    <types>
+        <type name="org.mule.extension.oauth2.api.authorizationcode.DefaultAuthorizationCodeGrantType">
+            <description><![CDATA[Represents the config element for oauth:authentication-code-config.
+ <p>
+ This config will: - If the authorization-request is defined then it will create a flow listening for an user call to begin the
+ oauth login. - If the token-request is defined then it will create a flow for listening in the redirect uri so we can get the
+ authentication code and retrieve the access token]]></description>
+            <parameters>
+                <parameter name="clientId">
+                    <description><![CDATA[Application identifier as defined in the oauth authentication server.]]></description>
+                </parameter>
+                <parameter name="clientSecret">
+                    <description><![CDATA[Application secret as defined in the oauth authentication server.]]></description>
+                </parameter>
+                <parameter name="scopes">
+                    <description><![CDATA[Scope required by this application to execute. Scopes define permissions over resources.]]></description>
+                </parameter>
+                <parameter name="tokenManager">
+                    <description><![CDATA[The token manager configuration to use for this grant type.]]></description>
+                </parameter>
+                <parameter name="tokenUrl">
+                    <description><![CDATA[The oauth authentication server url to get access to the token. Mule, after receiving the authentication code from the oauth
+ server (through the redirectUrl) will call this url to get the access token.]]></description>
+                </parameter>
+                <parameter name="responseAccessToken">
+                    <description><![CDATA[Expression to extract the access token parameter from the response of the call to tokenUrl.]]></description>
+                </parameter>
+                <parameter name="responseRefreshToken">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="responseExpiresIn">
+                    <description><![CDATA[Expression to extract the expiresIn parameter from the response of the call to tokenUrl.]]></description>
+                </parameter>
+                <parameter name="customParameterExtractors">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="refreshTokenWhen">
+                    <description><![CDATA[After executing an API call authenticated with OAuth it may be that the access token used was expired, so this attribute
+ allows for an expressions that will be evaluated against the http response of the API callback to determine if the request
+ failed because it was done using an expired token. In case the evaluation returns true (access token expired) then mule will
+ automatically trigger a refresh token flow and retry the API callback using a new access token. Default value evaluates if
+ the response status code was 401 or 403.]]></description>
+                </parameter>
+                <parameter name="tlsContext">
+                    <description><![CDATA[References a TLS config that will be used to receive incoming HTTP request and do HTTP request during the OAuth dance.]]></description>
+                </parameter>
+                <parameter name="proxyConfig">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="localCallbackConfig">
+                    <description><![CDATA[Listener configuration to be used instead of localCallbackUrl. Note that if using this you must also provide a
+ localCallbackConfigPath separately.]]></description>
+                </parameter>
+                <parameter name="localCallbackConfigPath">
+                    <description><![CDATA[Local path for the listener that will be created according to localCallbackConfig, not required if using localCallbackUrl.]]></description>
+                </parameter>
+                <parameter name="localCallbackUrl">
+                    <description><![CDATA[If this attribute is provided mule will automatically create an endpoint in this url to be able to store the authentication
+ code unless there's already an endpoint registered to manually extract the authorization code.]]></description>
+                </parameter>
+                <parameter name="externalCallbackUrl">
+                    <description><![CDATA[The oauth authentication server will use this url to provide the authentication code to the Mule server so the mule server
+ can retrieve the access token.
+ <p>
+ Note that this must be the externally visible address of the callback, not the local one.]]></description>
+                </parameter>
+                <parameter name="state">
+                    <description><![CDATA[State parameter for holding state between the authentication request and the callback done by the oauth authorization server
+ to the redirectUrl.]]></description>
+                </parameter>
+                <parameter name="localAuthorizationUrlResourceOwnerId">
+                    <description><![CDATA[Identifier under which the oauth authentication attributes are stored (accessToken, refreshToken, etc).
+ <p>
+ This attribute is only required when the applications needs to access resources from more than one user in the OAuth
+ authentication server.]]></description>
+                </parameter>
+                <parameter name="localAuthorizationUrl">
+                    <description><![CDATA[If this attribute is provided mule will automatically create and endpoint in the host server that the user can hit to
+ authenticate and grant access to the application for his account.]]></description>
+                </parameter>
+                <parameter name="authorizationUrl">
+                    <description><![CDATA[The oauth authentication server url to authorize the app for a certain user.]]></description>
+                </parameter>
+                <parameter name="custom-parameters">
+                    <description><![CDATA[Custom parameters to send to the authorization request url or the oauth authorization sever.]]></description>
+                </parameter>
+                <parameter name="resourceOwnerId">
+                    <description><![CDATA[Identifier under which the oauth authentication attributes are stored (accessToken, refreshToken, etc).
+ <p>
+ This attribute is only required when the applications needs to access resources from more than one user in the OAuth
+ authentication server.]]></description>
+                </parameter>
+                <parameter name="encodeClientCredentialsInBody">
+                    <description><![CDATA[If true, the client id and client secret will be sent in the request body. Otherwise, they will be sent as basic
+ authentication.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.oauth2.api.clientcredentials.ClientCredentialsGrantType">
+            <description><![CDATA[Authorization element for client credentials oauth grant type]]></description>
+            <parameters>
+                <parameter name="clientId">
+                    <description><![CDATA[Application identifier as defined in the oauth authentication server.]]></description>
+                </parameter>
+                <parameter name="clientSecret">
+                    <description><![CDATA[Application secret as defined in the oauth authentication server.]]></description>
+                </parameter>
+                <parameter name="scopes">
+                    <description><![CDATA[Scope required by this application to execute. Scopes define permissions over resources.]]></description>
+                </parameter>
+                <parameter name="tokenManager">
+                    <description><![CDATA[The token manager configuration to use for this grant type.]]></description>
+                </parameter>
+                <parameter name="tokenUrl">
+                    <description><![CDATA[The oauth authentication server url to get access to the token. Mule, after receiving the authentication code from the oauth
+ server (through the redirectUrl) will call this url to get the access token.]]></description>
+                </parameter>
+                <parameter name="responseAccessToken">
+                    <description><![CDATA[Expression to extract the access token parameter from the response of the call to tokenUrl.]]></description>
+                </parameter>
+                <parameter name="responseRefreshToken">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="responseExpiresIn">
+                    <description><![CDATA[Expression to extract the expiresIn parameter from the response of the call to tokenUrl.]]></description>
+                </parameter>
+                <parameter name="customParameterExtractors">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="refreshTokenWhen">
+                    <description><![CDATA[After executing an API call authenticated with OAuth it may be that the access token used was expired, so this attribute
+ allows for an expressions that will be evaluated against the http response of the API callback to determine if the request
+ failed because it was done using an expired token. In case the evaluation returns true (access token expired) then mule will
+ automatically trigger a refresh token flow and retry the API callback using a new access token. Default value evaluates if
+ the response status code was 401 or 403.]]></description>
+                </parameter>
+                <parameter name="tlsContext">
+                    <description><![CDATA[References a TLS config that will be used to receive incoming HTTP request and do HTTP request during the OAuth dance.]]></description>
+                </parameter>
+                <parameter name="proxyConfig">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="encodeClientCredentialsInBody">
+                    <description><![CDATA[If true, the client id and client secret will be sent in the request body. Otherwise, they will be sent as basic
+ authentication.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.oauth2.api.tokenmanager.TokenManagerConfig">
+            <description><![CDATA[Token manager stores all the OAuth State (access token, refresh token).
+
+ It can be referenced to access the state inside a flow for custom processing of oauth dance content.]]></description>
+            <parameters>
+                <parameter name="objectStore">
+                    <description><![CDATA[References an object store to use for storing oauth context data]]></description>
+                </parameter>
+            </parameters>
+        </type>
+    </types>
+</extension-documentation>

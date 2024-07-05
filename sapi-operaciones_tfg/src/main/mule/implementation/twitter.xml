@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:oauth="http://www.mulesoft.org/schema/mule/oauth"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/oauth http://www.mulesoft.org/schema/mule/oauth/current/mule-oauth.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="twitterPost" doc:id="a94a48a7-40bb-4e03-be4f-1a996e725465" >
+		<http:listener doc:name="Listener" doc:id="bfee9acd-8577-41c5-b3ae-92a451eadc71" config-ref="prueba-httpListenerConfig" path="/twitterPost"/>
+		<set-variable value='#["Bearer AAAAAAAAAAAAAAAAAAAAAFdEsAEAAAAAZjr3aFtWzILu9zAUu%2FfOA%2BVFTww%3DGRwgDB1qRx1gN1CE1701DRfqu9UTU51sL0R5gRytBSuEesg9EI"]' doc:name="bearertoken" doc:id="c340af4c-4b52-4572-8130-47125a60676b" variableName="token"/>
+		<set-payload value='#[{&#10;	"text": "Hello World"&#10;}]' doc:name="Set Payload" doc:id="18d5e828-dadf-41f6-9057-0138c5178a75" />
+		<http:request method="POST" doc:name="Request" doc:id="870677b4-ccd2-4ebc-98d0-c0feefbd41d9" url="https://api.twitter.com/2/tweets" config-ref="Twitter_HTTP_Request_configuration">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	Authorization : vars.bearertoken
+}]]]></http:headers>
+			<http:query-params ><![CDATA[#[{
+	"Authorization": "OAuth oauth_consumer_key=\"YEh2Ok4Oi7vDkSeuGJGTnzbtJ\", oauth_nonce=\"wDIeV6HwVE5tgQFI6EkT3yZ07TcEMszHE3sfpyBqs\", oauth_signature=\"jVQRSUXilE9fEz6fKf3J5HpQoUk%3D\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"1706198286\", oauth_token=\"1750104844239532032-PTBFAz1TVM1IuCAV3Qb0IaJTsC84xH\", oauth_version=\"1.0\""
+}]]]></http:query-params>
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="db1775da-323b-4cde-aa5d-c951187209f8" message="post:\twitter:application\json:prueba-config" />
+	</flow>
+</mule>

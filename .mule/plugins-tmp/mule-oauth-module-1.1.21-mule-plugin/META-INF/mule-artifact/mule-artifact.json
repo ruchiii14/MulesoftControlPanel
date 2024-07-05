@@ -1,0 +1,29 @@
+{
+  "extensionModelLoaderDescriptor": {
+    "id": "java",
+    "attributes": {
+      "type": "org.mule.extension.oauth2.OAuthExtension",
+      "version": "1.1.21"
+    }
+  },
+  "name": "OAuth",
+  "requiredProduct": "MULE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "privilegedExportedPackages": [],
+      "privilegedArtifactIds": [],
+      "exportedPackages": [
+        "org.mule.extension.oauth2.api.authorizationcode",
+        "org.mule.extension.oauth2.api.clientcredentials",
+        "org.mule.extension.oauth2.api.tokenmanager"
+      ],
+      "exportedResources": []
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  },
+  "minMuleVersion": "4.1.1"
+}

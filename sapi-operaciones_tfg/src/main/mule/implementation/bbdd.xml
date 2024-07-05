@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="databasePut" doc:id="f1336e56-a48c-4e53-a72d-b3b9be5377a6" >
+		<http:listener doc:name="Listener" doc:id="c37bab80-fe03-4a3b-a04e-7e206de62bd7" config-ref="prueba-httpListenerConfig" path="/databasePut"/>
+		<logger level="INFO" doc:name="Logger" doc:id="2107622f-d8a7-4a4a-895f-5f9363a4c116" message="put:\database:application\json:prueba-config" />
+		<db:update doc:name="Update" doc:id="fe900333-7bbd-4ddc-afd0-46610d41e2ab" config-ref="Database_Config">
+			<db:sql ><![CDATA[UPDATE producto
+SET stock = 
+    CASE 
+        WHEN :tabla = 'compra' THEN stock + :unidades
+        WHEN :tabla = 'venta' THEN stock - :unidades
+        ELSE stock
+    END
+WHERE id_producto = :id_producto;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	tabla: attributes.queryParams.tabla,
+	unidadades: attributes.queryParams.unidades,
+	id_producto: attributes.queryParams.id_producto
+	
+}]]]></db:input-parameters>
+		</db:update>
+	</flow>
+	<flow name="databaseDelete" doc:id="2c932d9d-dd79-4694-b644-9bebd57769d7" >
+		<http:listener doc:name="Listener" doc:id="7c558b6e-aec2-4a69-bfce-b5da2661a579" config-ref="prueba-httpListenerConfig" path="/databaseDelete"/>
+		<logger level="INFO" doc:name="Logger" doc:id="f0893e56-cd0d-4432-b380-f0ba9542ca7e" message="delete:\database:prueba-config" />
+		<db:delete doc:name="Delete" doc:id="cd710328-005c-4046-af44-e35189980a4e" config-ref="Database_Config">
+			<db:sql ><![CDATA[DELETE FROM :tabla
+WHERE id_producto = :id_producto;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	tabla: attributes.queryParams.tabla,
+	id_producto: attributes.queryParams.id_producto
+}]]]></db:input-parameters>
+		</db:delete>
+	</flow>
+	<flow name="databaseGet" doc:id="a5bcfca3-34ba-4d93-9a28-764915a0e858" >
+		<http:listener doc:name="Listener" doc:id="1052a065-0ef9-487e-9124-7573cc80e60b" config-ref="prueba-httpListenerConfig" path="/databaseGet"/>
+		<db:select doc:name="Select" doc:id="b5386ba3-fd67-41b4-b047-9782c17f90fd" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT id_producto, nombre FROM producto;
+
+]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="8f7f20fd-d95f-4bcb-bc66-be9a28caec58" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="databasePost" doc:id="5fdbce51-247c-451b-a874-2496a7262093" >
+		<http:listener doc:name="Listener" doc:id="3eafbe70-7275-467d-813f-95b3f99036af" config-ref="prueba-httpListenerConfig" path="/databasePost"/>
+		<logger level="INFO" doc:name="Logger" doc:id="8cbedcc7-8984-4510-ac3c-37024f78f9a8" message="post:\database:application\json:prueba-config" />
+		<ee:transform doc:name="Transform Message" doc:id="108b9967-d804-4d6c-9025-ff9b112f5b56" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="table" ><![CDATA[%dw 2.0
+output application/json
+---
+payload.purchaseData.bbddtable
+]]></ee:set-variable>
+				<ee:set-variable variableName="unidades" ><![CDATA[%dw 2.0
+output application/json
+---
+payload.units]]></ee:set-variable>
+				<ee:set-variable variableName="precio_unitario" ><![CDATA[%dw 2.0
+output application/json
+---
+payload.price]]></ee:set-variable>
+				<ee:set-variable variableName="id_producto" ><![CDATA[%dw 2.0
+output application/json
+---
+payload.id_producto]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="e63886e5-ef56-4319-b9cd-93b40b954b55" message="#[vars.unidades]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="9ad8f4fe-e31a-48f2-a485-07298680f992" message="#[payload]"/>
+		<choice doc:name="Choice" doc:id="7f69cf60-0255-44d2-af34-6dbdc0cd804a" >
+			<when expression='#[payload.bbddtable=="compra"]'>
+				<db:insert doc:name="Insert" doc:id="f273660d-1eb0-4a01-87f8-d7af9ed968cc" config-ref="Database_Config">
+			<db:sql><![CDATA[INSERT INTO compra (fecha, unidades_compradas, precio_unitario, id_producto)
+VALUES (DATE_FORMAT(NOW(), '%Y-%m-%d'), :unidades, :precio_unitario, :id_producto);
+]]></db:sql>
+			<db:input-parameters><![CDATA[#[{
+    id_producto: payload.id_producto,
+	unidades: payload.units,
+    precio_unitario: payload.price
+}]]]></db:input-parameters>
+		</db:insert>
+				<db:update doc:name="Update" doc:id="b7502516-d4c7-44d3-ba7a-ee827084499a" config-ref="Database_Config">
+			<db:sql><![CDATA[UPDATE producto
+SET stock = stock + CAST(:unidades AS INT)
+WHERE id_producto = :id_producto;]]></db:sql>
+			<db:input-parameters><![CDATA[#[{
+    id_producto: vars.id_producto,
+	unidades: vars.units
+}]]]></db:input-parameters>
+		</db:update>
+			</when>
+			<otherwise >
+				<db:insert doc:name="Insert" doc:id="7ca6d28d-533d-4a63-9880-d215f6d9f89b" config-ref="Database_Config" >
+					<db:sql ><![CDATA[INSERT INTO venta (fecha, unidades_compradas, precio_unitario, id_producto)
+VALUES (DATE_FORMAT(NOW(), '%Y-%m-%d'), :unidades, :precio_unitario, :id_producto);
+]]></db:sql>
+					<db:input-parameters ><![CDATA[#[{
+    id_producto: payload.id_producto,
+	unidades: payload.units,
+    precio_unitario: payload.price
+}]]]></db:input-parameters>
+				</db:insert>
+				<db:update doc:name="Update" doc:id="1ce55a8c-0811-41c2-a8eb-fe3142f53ee6" config-ref="Database_Config">
+					<db:sql><![CDATA[UPDATE producto
+SET stock = stock - :unidades
+WHERE id_producto = :id_producto;]]></db:sql>
+					<db:input-parameters><![CDATA[#[{
+    id_producto: vars.id_producto,
+	unidades: vars.units
+}]]]></db:input-parameters>
+				</db:update>
+			</otherwise>
+		</choice>
+		<ee:transform doc:name="Transform Message" doc:id="29ed1a1e-ba29-463d-8cf4-cc88d4e250cd" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="4f537c38-f360-4d02-94e1-911cee38786c" message="#[payload]"/>
+	</flow>
+	<flow name="get:\get3:prueba-config" doc:id="9e54fdc8-de0e-4d70-9905-e78ab859604c" >
+		<db:select doc:name="Select" doc:id="cf034d3f-727a-4bfc-9650-fafb186eccab" >
+			<db:sql ><![CDATA[SELECT id_producto
+FROM (
+    SELECT id_producto, COUNT(*) AS cantidad_ventas
+    FROM venta
+    GROUP BY id_producto
+) AS subquery
+WHERE 
+    CASE 
+        WHEN :category = 'top' THEN cantidad_ventas >= (
+            SELECT MIN(cantidad_ventas)
+            FROM (
+                SELECT COUNT(*) AS cantidad_ventas
+                FROM venta
+                GROUP BY id_producto
+            ) AS subsubquery
+        )
+        WHEN :category = 'least' THEN cantidad_ventas <= (
+            SELECT MAX(cantidad_ventas)
+            FROM (
+                SELECT COUNT(*) AS cantidad_ventas
+                FROM venta
+                GROUP BY id_producto
+            ) AS subsubquery
+        )
+    END
+LIMIT 3;
+]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	category: attributes.queryParams.category	
+}]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="a8202b6f-4a95-46f5-92dc-1bbb2a6f94af" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="get:\lowstock:prueba-config" doc:id="2d9ddc53-6b4a-43f4-8369-a88c2249ec35" >
+		<db:select doc:name="Select" doc:id="8dd73123-5dd5-4725-879b-a47335c5816b" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT producto
+FROM producto
+WHERE stock < 5;]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="c96b587c-64b9-446d-9357-1ff5f16031c5" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="ff87bf3c-db54-44de-9552-8f37a88d39d5" message="#[payload]"/>
+	</flow>
+</mule>
